@@ -14,7 +14,7 @@ You are summarizing what was accomplished in the current Claude Code session and
 
 ### Step 1: Read Configuration
 
-Read the Notion configuration from `${CLAUDE_SKILL_DIR}/../../config/notion-config.json`.
+Read the Notion configuration from `~/.claude/config/notion-config.json` (i.e. `$HOME/.claude/config/notion-config.json`).
 
 If the file is missing or `daily_database_id` is empty, tell the user:
 > "Notion is not configured yet. Please run `/configure-notion` first to set up your workspace."
@@ -34,14 +34,30 @@ Check if `$ARGUMENTS` contains `--personal`.
 
 ### Step 3: Summarize the Session
 
-Reflect on the current conversation and generate a concise, informative summary covering:
+Reflect on the current conversation and generate a **short, bullet-point** summary. Rules:
 
-- **What was worked on**: files modified, features added, bugs fixed, research done
-- **Key decisions made**: architectural choices, trade-offs discussed
-- **Outcomes**: what was accomplished, what's left to do
-- **Tools/technologies used**: languages, frameworks, libraries involved
+- **Use bullet points only** — no prose paragraphs.
+- **Be brief**: each bullet should be one short sentence (under 15 words ideally).
+- **Only include significant outcomes**: features built, bugs fixed, key decisions, meaningful results.
+- **Omit minor/iterative details**: README tweaks, small refactors, doc formatting changes, intermediate debugging steps, and similar low-signal work should NOT appear unless they were the main focus of the session.
+- Write in past tense. Be specific (name the thing) but not verbose.
 
-Keep the summary professional and useful for a weekly research report context. Write in past tense. Be specific about what was done rather than vague.
+Example of a good summary:
+```
+- Built Notion-integrated daily summary system with 4 Claude Code skills
+- Created cross-platform Python install script for global skill installation
+- Set up Daily Summaries and Weekly Summaries databases in Notion
+```
+
+Example of what NOT to write:
+```
+Built out the complete Daily Summary project: a Notion-integrated system for
+logging daily work summaries from Claude Code sessions and generating weekly
+supervisor reports. Created Claude Code skills, set up Notion database schemas,
+wrote a comprehensive README with setup instructions, and created a cross-platform
+Python install script. Iteratively improved the README based on feedback — clarified
+Notion database creation steps, noted that the Name column is mandatory...
+```
 
 ### Step 4: Check for Existing Daily Entry
 

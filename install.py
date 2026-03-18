@@ -20,16 +20,17 @@ def main():
         print(f"Error: source directory not found: {src}", file=sys.stderr)
         sys.exit(1)
 
-    # Install skills
+    # Install skills (only update SKILL.md files, preserve any local state)
     for skill in SKILLS:
         skill_src = src / "skills" / skill
         skill_dest = dest / "skills" / skill
-        if skill_dest.exists():
-            shutil.rmtree(skill_dest)
-        shutil.copytree(skill_src, skill_dest)
+        skill_dest.mkdir(parents=True, exist_ok=True)
+        for file in skill_src.iterdir():
+            if file.is_file():
+                shutil.copy2(file, skill_dest / file.name)
         print(f"  Installed skill: {skill}")
 
-    # Install config (don't overwrite if already configured)
+    # Install config template only if no config exists yet
     config_dest = dest / "config"
     config_dest.mkdir(parents=True, exist_ok=True)
     config_file = config_dest / "notion-config.json"

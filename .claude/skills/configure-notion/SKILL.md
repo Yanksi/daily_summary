@@ -13,7 +13,7 @@ Help the user configure their Notion workspace for the daily/weekly summary syst
 
 ### Step 1: Check Current Config
 
-Read `${CLAUDE_SKILL_DIR}/../../config/notion-config.json` to see if there's an existing configuration.
+Read `~/.claude/config/notion-config.json` (i.e. `$HOME/.claude/config/notion-config.json`) to see if there's an existing configuration.
 If it exists and has values, show the current settings to the user.
 
 ### Step 2: Gather Database IDs
@@ -56,7 +56,7 @@ Check that the databases have the required properties. If missing, offer to note
 
 ### Step 5: Save Configuration
 
-Write the configuration to `${CLAUDE_SKILL_DIR}/../../config/notion-config.json`:
+Write the configuration to `~/.claude/config/notion-config.json`:
 
 ```json
 {

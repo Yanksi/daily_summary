@@ -13,7 +13,7 @@ Generate a cohesive weekly report from the daily summaries stored in Notion, sui
 
 ### Step 1: Read Configuration
 
-Read `${CLAUDE_SKILL_DIR}/../../config/notion-config.json`.
+Read `~/.claude/config/notion-config.json` (i.e. `$HOME/.claude/config/notion-config.json`).
 
 If not configured, tell the user to run `/configure-notion` first and stop.
 
@@ -77,24 +77,25 @@ Synthesize the filtered daily summaries into a cohesive weekly report structured
 
 Guidelines for the report:
 - Write in professional academic tone suitable for a supervisor
+- **Use bullet points** within each section — no long prose paragraphs
 - Be specific — reference concrete results, not vague descriptions
-- Consolidate related work across days into coherent narratives
-- If a topic spans multiple days, combine rather than repeat
-- Keep total length reasonable (aim for 300-600 words)
+- Consolidate related work across days; combine rather than repeat
+- **Omit minor/iterative details**: doc tweaks, small refactors, formatting fixes, intermediate debugging steps should not appear unless they were a major focus
+- Keep total length concise (aim for 200-400 words)
 - Omit empty sections rather than writing "Nothing this week"
 
 ### Step 6: Write to Notion
 
-Create a new entry in the weekly summaries database with:
-- `Week`: the week string (e.g., "2026-W12")
-- `Date Range`: the date range string (e.g., "2026-03-11 to 2026-03-17")
-- `Generated At`: current date/time
-- Page content: the generated weekly report
+Query the weekly summaries database for an existing entry where `Week` matches the current week string.
 
-If an entry for this week already exists, ask the user whether to:
-- **Replace** the existing report
-- **Append** the new version below the old one
-- **Cancel** and keep the existing one
+- If an entry **exists**: update the existing page by replacing its content with the new report, and update the `Generated At` property to the current date/time.
+- If **no entry exists**: create a new entry with:
+  - `Week`: the week string (e.g., "2026-W12")
+  - `Date Range`: the date range string (e.g., "2026-03-11 to 2026-03-17")
+  - `Generated At`: current date/time
+  - Page content: the generated weekly report
+
+This makes the operation idempotent — running it multiple times for the same week simply updates the existing entry.
 
 ### Step 7: Confirm
 
@@ -107,6 +108,5 @@ Tell the user:
 ## Important Notes
 
 - This skill is also triggered automatically via a scheduled task at the time configured in `notion-config.json` (default: Tuesday 7pm).
-- When running automatically, it should replace any existing entry for the same week without asking (auto-mode).
 - The `## Personal Notes` heading convention must be respected exactly — this is the contract between the daily and weekly skills.
 - If no daily summaries exist for the week, create a minimal entry noting "No daily summaries were recorded this week."
