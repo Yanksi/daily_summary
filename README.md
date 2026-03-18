@@ -41,7 +41,7 @@ You'll create a single parent page that holds two databases — one for daily su
 1. Inside the "Daily Summary" page, type `/database` and select **"Database - Inline"**
    - This creates a table-style database embedded in the page
 2. Name the database **"Daily Summaries"** (click the title at the top of the table)
-3. You'll see a default `Name` column already. Now add these columns by clicking the **`+`** button to the right of the existing columns:
+3. You'll see a default `Name` column (title) — this can't be deleted. Claude will auto-fill it with the date (e.g., "2026-03-18"). Now add these columns by clicking the **`+`** button to the right of the existing columns:
 
 | Column name | How to add it                                                              |
 |-------------|----------------------------------------------------------------------------|
@@ -49,7 +49,7 @@ You'll create a single parent page that holds two databases — one for daily su
 | `Week`      | Click **+** → choose **Text**                                             |
 | `Excluded`  | Click **+** → choose **Checkbox**                                         |
 
-4. You can delete any extra default columns (like "Tags") by clicking the column header → **Delete property**
+4. Delete any extra default columns you don't need (like "Tags") by clicking the column header → **Delete property**. The `Name` column cannot be deleted — that's normal.
 
 Each row in this database = one day. Click any row to open it as a full page where the session summaries will be written.
 
@@ -57,7 +57,7 @@ Each row in this database = one day. Click any row to open it as a full page whe
 
 1. Click below the Daily Summaries database (inside the same parent page) and type `/database` → select **"Database - Inline"** again
 2. Name it **"Weekly Summaries"**
-3. Add these columns:
+3. The default `Name` column will be auto-filled with the week string (e.g., "Weekly Summary: 2026-W12"). Add these columns:
 
 | Column name    | How to add it                  |
 |----------------|--------------------------------|
