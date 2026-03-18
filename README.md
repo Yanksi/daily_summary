@@ -25,7 +25,36 @@ Then authenticate inside Claude Code:
 
 Select **Notion** and complete the OAuth flow in your browser.
 
-## Step 2: Set Up Notion
+## Step 2: Install Skills Globally
+
+The skills need to be installed globally so you can use `/summarize-to-notion` from **any project directory**, not just this repo.
+
+1. Clone this repo (if you haven't already):
+   ```bash
+   git clone git@github.com:Yanksi/daily_summary.git
+   ```
+
+2. Copy the skills and config to your global Claude Code directory:
+
+   **macOS / Linux / WSL:**
+   ```bash
+   cp -r daily_summary/.claude/skills/* ~/.claude/skills/
+   mkdir -p ~/.claude/config
+   cp daily_summary/.claude/config/notion-config.json ~/.claude/config/
+   ```
+
+   **Windows PowerShell:**
+   ```powershell
+   Copy-Item -Recurse daily_summary\.claude\skills\* $env:USERPROFILE\.claude\skills\
+   New-Item -ItemType Directory -Force $env:USERPROFILE\.claude\config
+   Copy-Item daily_summary\.claude\config\notion-config.json $env:USERPROFILE\.claude\config\
+   ```
+
+3. Verify the skills are available — open Claude Code in any directory and type `/`. You should see `summarize-to-notion`, `configure-notion`, and `weekly-summary` in the command list.
+
+> **Note:** The global skills directory is `~/.claude/skills/`. Skills installed here are available in all projects. If you update this repo later, re-run the copy commands to pick up changes.
+
+## Step 3: Set Up Notion
 
 You'll create a single parent page that holds two databases — one for daily summaries and one for weekly reports.
 
@@ -76,7 +105,7 @@ This allows Claude Code to read/write to your databases via the Notion API.
 
 > **Tip:** Connecting the parent page automatically gives the integration access to both inline databases inside it. You don't need to connect each database separately.
 
-## Step 3: Configure the Workspace
+## Step 4: Configure the Workspace
 
 Run inside Claude Code:
 
@@ -90,7 +119,7 @@ This will ask you for:
 3. Workspace name (optional)
 4. Weekly report schedule — day & time (e.g., "Tuesday 19:00", "Friday 17:00")
 
-The config is saved to `.claude/config/notion-config.json`.
+The config is saved to `~/.claude/config/notion-config.json`.
 
 ### Finding Your Database ID
 
@@ -100,7 +129,7 @@ https://www.notion.so/yourworkspace/abc123def456...?v=...
 ```
 The 32-character hex string before `?` is your database ID.
 
-## Step 4: Verify the Scheduled Task
+## Step 5: Verify the Scheduled Task
 
 The weekly report task is pre-configured. To verify:
 
@@ -172,8 +201,10 @@ The scheduled task runs at your configured time. It generates the weekly summary
 
 ## File Structure
 
+After global installation, the files live at:
+
 ```
-.claude/
+~/.claude/
 ├── config/
 │   └── notion-config.json          # Workspace & schedule configuration
 └── skills/
