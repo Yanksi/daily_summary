@@ -25,33 +25,56 @@ Then authenticate inside Claude Code:
 
 Select **Notion** and complete the OAuth flow in your browser.
 
-## Step 2: Create Notion Databases
+## Step 2: Set Up Notion
 
-Create **two databases** in your Notion workspace:
+You'll create a single parent page that holds two databases — one for daily summaries and one for weekly reports.
 
-### Daily Summaries Database
+### 2a. Create the Parent Page
 
-Create a full-page database with these properties:
+1. Open Notion in your browser
+2. In the left sidebar, click **+ New page** (or press `Ctrl+N`)
+3. Name it **"Daily Summary"** (or whatever you prefer)
+4. This page will be the home for everything — you'll add both databases inside it
 
-| Property   | Type     | Description                                     |
-|------------|----------|-------------------------------------------------|
-| `Name`     | Title    | Auto-filled (default)                           |
-| `Date`     | Date     | The day this summary covers                     |
-| `Week`     | Text     | ISO week string, e.g., "2026-W12"               |
-| `Excluded` | Checkbox | If checked, entire day excluded from weekly report |
+### 2b. Create the Daily Summaries Database
 
-### Weekly Summaries Database
+1. Inside the "Daily Summary" page, type `/database` and select **"Database - Inline"**
+   - This creates a table-style database embedded in the page
+2. Name the database **"Daily Summaries"** (click the title at the top of the table)
+3. You'll see a default `Name` column already. Now add these columns by clicking the **`+`** button to the right of the existing columns:
 
-Create a full-page database with these properties:
+| Column name | How to add it                                                              |
+|-------------|----------------------------------------------------------------------------|
+| `Date`      | Click **+** → choose **Date**                                             |
+| `Week`      | Click **+** → choose **Text**                                             |
+| `Excluded`  | Click **+** → choose **Checkbox**                                         |
 
-| Property       | Type | Description                              |
-|----------------|------|------------------------------------------|
-| `Name`         | Title| Auto-filled (default)                    |
-| `Week`         | Text | ISO week string, e.g., "2026-W12"        |
-| `Date Range`   | Text | e.g., "2026-03-11 to 2026-03-17"         |
-| `Generated At` | Date | When the report was auto-generated        |
+4. You can delete any extra default columns (like "Tags") by clicking the column header → **Delete property**
 
-**Important:** Make sure both databases are shared with the Notion integration (click "..." menu > "Connections" > add your integration).
+Each row in this database = one day. Click any row to open it as a full page where the session summaries will be written.
+
+### 2c. Create the Weekly Summaries Database
+
+1. Click below the Daily Summaries database (inside the same parent page) and type `/database` → select **"Database - Inline"** again
+2. Name it **"Weekly Summaries"**
+3. Add these columns:
+
+| Column name    | How to add it                  |
+|----------------|--------------------------------|
+| `Week`         | Click **+** → choose **Text**  |
+| `Date Range`   | Click **+** → choose **Text**  |
+| `Generated At` | Click **+** → choose **Date**  |
+
+### 2d. Connect Both Databases to the Integration
+
+This allows Claude Code to read/write to your databases via the Notion API.
+
+1. On the **"Daily Summary"** parent page, click the **`...`** menu (top-right corner)
+2. Scroll down to **Connections** → click **"Connect to"**
+3. Search for and select the Notion integration (the one created when you authenticated in Step 1)
+4. Click **"Confirm"** — this shares the parent page _and all its sub-databases_ with Claude
+
+> **Tip:** Connecting the parent page automatically gives the integration access to both inline databases inside it. You don't need to connect each database separately.
 
 ## Step 3: Configure the Workspace
 
@@ -145,7 +168,7 @@ Or for a specific past week:
 
 ### Automatic Weekly Reports
 
-The scheduled task runs at your configured time (default: every Tuesday at 7pm). It generates the weekly summary and saves it to the weekly database automatically.
+The scheduled task runs at your configured time. It generates the weekly summary and saves it to the weekly database automatically.
 
 ## File Structure
 
