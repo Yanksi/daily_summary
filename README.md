@@ -34,25 +34,15 @@ The skills need to be installed globally so you can use `/summarize-to-notion` f
    git clone git@github.com:Yanksi/daily_summary.git
    ```
 
-2. Copy the skills and config to your global Claude Code directory:
-
-   **macOS / Linux / WSL:**
+2. Run the install script:
    ```bash
-   cp -r daily_summary/.claude/skills/* ~/.claude/skills/
-   mkdir -p ~/.claude/config
-   cp daily_summary/.claude/config/notion-config.json ~/.claude/config/
+   python daily_summary/install.py
    ```
-
-   **Windows PowerShell:**
-   ```powershell
-   Copy-Item -Recurse daily_summary\.claude\skills\* $env:USERPROFILE\.claude\skills\
-   New-Item -ItemType Directory -Force $env:USERPROFILE\.claude\config
-   Copy-Item daily_summary\.claude\config\notion-config.json $env:USERPROFILE\.claude\config\
-   ```
+   This copies all skills and config to `~/.claude/`. It won't overwrite your existing config if you've already set one up.
 
 3. Verify the skills are available — open Claude Code in any directory and type `/`. You should see `summarize-to-notion`, `configure-notion`, and `weekly-summary` in the command list.
 
-> **Note:** The global skills directory is `~/.claude/skills/`. Skills installed here are available in all projects. If you update this repo later, re-run the copy commands to pick up changes.
+> **Note:** If you pull updates to this repo later, re-run `python install.py` to pick up changes.
 
 ## Step 3: Set Up Notion
 
